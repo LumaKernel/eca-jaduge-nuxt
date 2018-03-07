@@ -1,8 +1,5 @@
 
 module.exports = {
-  /*
-  ** Headers of the page
-  */
   head: {
     title: 'eca-judge-nuxt',
     meta: [
@@ -19,13 +16,7 @@ module.exports = {
   css: [
     '~/assets/style/app.styl'
   ],
-  /*
-  ** Customize the progress bar color
-  */
   loading: { color: '#3B8070' },
-  /*
-  ** Build configuration
-  */
   build: {
     vendor: [
       '~/plugins/vuetify.js'
@@ -40,7 +31,10 @@ module.exports = {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/
+          exclude: /(node_modules)/,
+          options: {
+            fix: true
+          }
         })
       }
     }
