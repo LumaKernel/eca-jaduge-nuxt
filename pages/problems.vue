@@ -1,23 +1,9 @@
 <template lang="pug">
-//- TODO : gird-list?
 v-container(fill-height fluid grid-list-sm)
   v-layout(row wrap)
-    v-flex.pa-3(xs12 hidden-lg-and-up)
-      v-card
-        v-card-title 検索
-        v-divider
-        v-card-text
-          v-checkbox(v-model="show_notac" hide-details label="未ACのみ表示")
-          v-checkbox(v-model="show_mine" hide-details label="自分の問題を表示")
     v-flex(xs12 lg8)
-      //- v-flex(xs12)
-      //-   v-card
-      //-     v-container: v-layout
-      //-       v-flex
-      //-         h3.display-3 ようこそるまじゃっじへ！
-      //-         v-divider.my-3
-      //-         p 競技プログラミングの問題を解けます。
-      //-         p まずは以下の問題を解いてみてください！
+      v-flex.pa-3(xs12 hidden-lg-and-up)
+        ProblemFilter
       v-flex(xs12)
         v-data-table(
           :headers="headers"
@@ -43,32 +29,37 @@ v-container(fill-height fluid grid-list-sm)
                 v-flex(xs12)
                   v-chip(
                     v-for="tag in props.item.tags"
-                    small label outline
+                    small label
+                    :outline="!searching_tags.includes(tag)"
+                    :color="searching_tags.includes(tag) ? 'primary' : ''"
+                    :text-color="searching_tags.includes(tag) ? 'white' : ''"
                     :key="tag"
                     ).tag {{ tagNames[tag] }}
-                  v-chip(small label color="primary" text-color="white") 幾何
+                  //- v-chip(small label color="primary" text-color="white") 幾何
                   //- td.text-xs-right {{ props.item.tags }}
                   //- td.text-xs-right {{ props.item.difficulty }}
                   //- td.text-xs-right {{ props.item.solved }}
                   //- td.text-xs-right {{ props.item.submissions }}
                   //- td.text-xs-right {{ props.item.rate }}
     v-flex.pa-3(lg-8 hidden-md-and-down)
-      v-card
-        v-card-title 検索
-        v-divider
-        v-card-text
-          v-checkbox(v-model="show_notac" hide-details label="未ACのみ表示")
-          v-checkbox(v-model="show_mine" hide-details label="自分の問題を表示")
+      ProblemFilter
 </template>
 
 <script>
+import ProblemFilter from '~/components/ProblemFilter.vue'
+
 const tagNames = {
-  graph: 'グラフ'
+  graph: 'グラフ',
+  string: '文字列',
+  geography: '幾何',
+  manacher: 'Manacher',
+  palindrome: '回文'
 }
 export default {
+  components: { ProblemFilter },
   data: () => ({
     show_notac: false,
-    show_mine: false,
+    show_mine: true,
     tagNames,
     searching_tags: [
       'graph'
@@ -98,7 +89,7 @@ export default {
       {
         id: 1,
         name: '回文王国',
-        tags: ['graph'],
+        tags: ['graph', 'string'],
         level: 2,
         solved: 30,
         submissions: 100,
@@ -107,6 +98,7 @@ export default {
       {
         id: 2,
         name: '回文迷路',
+        tags: ['graph', 'string'],
         level: 2,
         solved: 30,
         submissions: 100,
@@ -115,6 +107,7 @@ export default {
       {
         id: 5,
         name: '最長回文',
+        tags: ['string', 'manacher', 'palindrome'],
         level: 2,
         solved: 30,
         submissions: 100,
@@ -123,6 +116,7 @@ export default {
       {
         id: 3,
         name: '回文グラフ',
+        tags: ['string', 'graph', 'palindrome'],
         level: 2,
         solved: 30,
         submissions: 100,
@@ -131,6 +125,7 @@ export default {
       {
         id: 4,
         name: 'うしの王国',
+        tags: ['graph'],
         level: 3,
         solved: 30,
         submissions: 100,
