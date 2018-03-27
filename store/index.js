@@ -9,9 +9,11 @@ export const mutations = {
     state.sidebar = !state.sidebar
   },
   setHideAC (state, b) {
+    if (state.hide_ac === b) return
     state.hide_ac = b
   },
   setHideOther (state, b) {
+    if (state.hide_other === b) return
     state.hide_other = b
   }
 }
